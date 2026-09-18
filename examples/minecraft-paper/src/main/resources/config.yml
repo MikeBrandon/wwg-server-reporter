@@ -1,0 +1,30 @@
+# WWG Reporter. Paste the key from https://watuwagaming.site/profile#game-server-api
+# (it is shown once). Keep this file out of backups you share: anyone holding
+# the key can report servers as you.
+key: ""
+
+api_base: "https://watuwagaming.site/api/gs/v1"
+
+# Stable id for THIS server. Changing it creates a new server on WWG and
+# orphans the old one's likes and comments.
+external_id: "smp-1"
+game: "minecraft"
+# The name WWG shows until you set a title on the site.
+name: "My WWG server"
+# world (survival worlds), players (creative, minigames), lobby (hubs)
+template: "world"
+join_address: "play.example.co.ke:25565"
+join_url: ""
+region: "Nairobi"
+# Blank sends the server's default game mode.
+mode: ""
+icon_url: ""
+tags:
+  - survival
+links: []
+#  - label: Rules
+#    url: https://example.co.ke/rules
+
+interval_seconds: 30
+# false sends only the player count.
+show_player_names: true

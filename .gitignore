@@ -1,0 +1,16 @@
+# Never commit a key. config.json is the live config; config.example.json is the template.
+config.json
+*.env
+.env*
+status.json
+
+# build output
+build/
+.gradle/
+out/
+*.jar
+node_modules/
+__pycache__/
+*.pyc
+.idea/
+.vscode/

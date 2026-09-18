@@ -1,0 +1,14 @@
+{
+  "player_count": 5,
+  "max_players": 16,
+  "players": [{"name": "Kip"}, {"name": "Amani"}, {"name": "Njeri"}, {"name": "Otieno"}, {"name": "Wanjiru"}],
+  "map": "Knox County",
+  "version": "41.78",
+  "state": {
+    "stats": [
+      {"label": "Day", "value": 63},
+      {"label": "Zombies killed", "value": 18422},
+      {"label": "Weather", "value": "Fog"}
+    ]
+  }
+}

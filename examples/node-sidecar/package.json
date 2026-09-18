@@ -1,0 +1,14 @@
+{
+  "name": "wwg-server-reporter",
+  "version": "1.0.0",
+  "description": "Report game servers to watuwagaming.site (Game Server Presence API)",
+  "type": "module",
+  "bin": { "wwg-reporter": "./reporter.mjs" },
+  "scripts": {
+    "check": "node reporter.mjs --check",
+    "once": "node reporter.mjs --once",
+    "start": "node reporter.mjs"
+  },
+  "engines": { "node": ">=18" },
+  "license": "MIT"
+}

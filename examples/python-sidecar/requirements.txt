@@ -1,0 +1,2 @@
+# Only needed for the a2s source (Steam query games). Everything else is standard library.
+python-a2s>=1.3

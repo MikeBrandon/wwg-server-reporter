@@ -1,0 +1,60 @@
+{
+  "api_base": "https://watuwagaming.site/api/gs/v1",
+  "key_env": "WWG_GS_KEY",
+  "interval_seconds": 30,
+  "servers": [
+    {
+      "external_id": "smp-1",
+      "game": "minecraft",
+      "name": "My WWG SMP",
+      "template": "world",
+      "mode": "Survival",
+      "region": "Nairobi",
+      "join_address": "play.example.co.ke:25565",
+      "tags": ["survival", "whitelist"],
+      "links": [{"label": "Rules", "url": "https://example.co.ke/rules"}],
+      "source": {"type": "minecraft_ping", "host": "127.0.0.1", "port": 25565}
+    },
+    {
+      "external_id": "cs2-scrim-1",
+      "game": "counter-strike-2",
+      "name": "WWG Scrims",
+      "template": "match",
+      "mode": "Competitive 5v5",
+      "join_address": "cs.example.co.ke:27015",
+      "source": {"type": "a2s", "host": "127.0.0.1", "port": 27015}
+    },
+    {
+      "external_id": "valheim-main",
+      "game": "valheim",
+      "name": "WWG Valheim",
+      "template": "world",
+      "join_address": "valheim.example.co.ke:2456",
+      "source": {"type": "a2s", "host": "127.0.0.1", "port": 2457}
+    },
+    {
+      "external_id": "pal-1",
+      "game": "palworld",
+      "name": "WWG Palworld",
+      "template": "world",
+      "join_address": "pal.example.co.ke:8211",
+      "source": {"type": "palworld", "base": "http://127.0.0.1:8212", "user": "admin", "password_env": "PALWORLD_ADMIN_PASSWORD"}
+    },
+    {
+      "external_id": "fivem-rp",
+      "game": "Grand Theft Auto V",
+      "name": "WWG Roleplay",
+      "template": "players",
+      "join_url": "https://cfx.re/join/xxxxxx",
+      "tags": ["roleplay", "whitelist"],
+      "source": {"type": "fivem", "base": "http://127.0.0.1:30120"}
+    },
+    {
+      "external_id": "anything-1",
+      "game": "Project Zomboid",
+      "name": "WWG Knox County",
+      "template": "custom",
+      "source": {"type": "statusfile", "path": "/opt/zomboid/status.json", "max_age_seconds": 120}
+    }
+  ]
+}

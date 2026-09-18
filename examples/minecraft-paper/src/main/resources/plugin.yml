@@ -1,0 +1,7 @@
+name: WwgReporter
+version: '${version}'
+main: site.watuwagaming.reporter.WwgReporterPlugin
+api-version: '1.21'
+description: Reports this server to watuwagaming.site so it shows live on /servers.
+author: Watu Wa Gaming
+website: https://github.com/MikeBrandon/wwg-server-reporter
