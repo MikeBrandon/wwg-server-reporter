@@ -50,6 +50,15 @@
       "source": {"type": "fivem", "base": "http://127.0.0.1:30120"}
     },
     {
+      "external_id": "zomboid-1",
+      "game": "Project Zomboid",
+      "name": "WWG Knox County",
+      "template": "custom",
+      "join_address": "pz.example.co.ke:16261",
+      "tags": ["pvp"],
+      "source": {"type": "rcon", "host": "127.0.0.1", "port": 27015, "password_env": "PZ_RCON_PASSWORD", "format": "zomboid"}
+    },
+    {
       "external_id": "anything-1",
       "game": "Project Zomboid",
       "name": "WWG Knox County",

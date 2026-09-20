@@ -39,6 +39,9 @@ This repo gives you three things:
 - Unknown fields are ignored and fields are only ever added, so a reporter
   written today keeps working.
 
+The site's own walkthrough, per game, is at
+<https://watuwagaming.site/servers/setup>.
+
 ## Two minutes to a live server
 
 ```bash
@@ -68,6 +71,8 @@ server a title, join instructions and rules.
 | Minecraft, anything (no plugin access) | [`examples/python-sidecar`](examples/python-sidecar) source `minecraft_ping` | Uses the server list ping the client uses. Count, max, version, sample names. |
 | CS2, CS:GO, TF2, Garry's Mod, Valheim, Palworld, ARK, Rust, any Source game | [`examples/python-sidecar`](examples/python-sidecar) source `a2s` | Steam query protocol. Map, counts, names, scores. |
 | Palworld with the REST API on | [`examples/python-sidecar`](examples/python-sidecar) source `palworld` | Names, levels, in-game day. |
+| Project Zomboid | [`examples/python-sidecar`](examples/python-sidecar) source `rcon` with `format: zomboid` | Names and count over RCON. A native WWG mod is in progress. |
+| Anything with Source RCON | [`examples/python-sidecar`](examples/python-sidecar) source `rcon` | Minecraft `list`, CS2 `status`, or one name per line. |
 | FiveM | [`examples/fivem-resource`](examples/fivem-resource) | A resource. Config through `server.cfg` convars. |
 | A server with a status page or a CLI | [`examples/python-sidecar`](examples/python-sidecar) source `fivem` or `command`, or [`examples/node-sidecar`](examples/node-sidecar) | Run any command that prints JSON. |
 | Anything else | [`examples/status-file`](examples/status-file) | Have the server write `status.json`; a sidecar posts it. |

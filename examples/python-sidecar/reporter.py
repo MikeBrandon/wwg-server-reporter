@@ -19,6 +19,8 @@ Sources (config "source": {"type": ...}):
     a2s             Steam query: CS2, Valheim, Palworld, ARK, Rust, GMod ("host", "port")
     fivem           FiveM info.json and players.json ("base")
     palworld        Palworld REST API ("base", "user", "password_env")
+    rcon            Source RCON: Project Zomboid, Minecraft, CS2 and other Source games
+                    ("host", "port", "password_env", "format": zomboid|minecraft|source|lines, "command")
 
 Identity fields in the server block (external_id, game, name, template,
 join_address, tags, links ...) always win over what a source returns.
@@ -356,6 +358,116 @@ def src_palworld(src: dict, server: dict) -> dict:
     return out
 
 
+# Source RCON (Minecraft, Project Zomboid, CS2 and other Source games, 7 Days to
+# Die's telnet is different, Rust uses WebRCON). Packet: int32 size, int32 id,
+# int32 type, body, two NULs. Type 3 auth, 2 command, 0 response; an auth
+# failure answers with id -1.
+
+def _recv_exact(sock: socket.socket, n: int) -> bytes:
+    buf = b""
+    while len(buf) < n:
+        chunk = sock.recv(n - len(buf))
+        if not chunk:
+            raise SourceUnavailable("rcon: connection closed")
+        buf += chunk
+    return buf
+
+
+def _rcon_packet(pid: int, ptype: int, body: str) -> bytes:
+    payload = struct.pack("<ii", pid, ptype) + body.encode("utf-8") + b"\x00\x00"
+    return struct.pack("<i", len(payload)) + payload
+
+
+def _rcon_read(sock: socket.socket) -> Tuple[int, int, str]:
+    (size,) = struct.unpack("<i", _recv_exact(sock, 4))
+    if size < 10 or size > 1 << 20:
+        raise SourceUnavailable(f"rcon: bad packet size {size}")
+    data = _recv_exact(sock, size)
+    pid, ptype = struct.unpack("<ii", data[:8])
+    return pid, ptype, data[8:-2].decode("utf-8", "replace")
+
+
+def rcon_command(host: str, port: int, password: str, command: str, timeout: float = 5.0) -> str:
+    """Authenticate, run one command, return its text (all packets)."""
+    with socket.create_connection((host, port), timeout=timeout) as s:
+        s.sendall(_rcon_packet(1, 3, password))
+        pid, ptype, _ = _rcon_read(s)
+        if ptype == 0:  # some servers send an empty response before the auth reply
+            pid, ptype, _ = _rcon_read(s)
+        if pid == -1:
+            raise SourceUnavailable("rcon: wrong password")
+        s.sendall(_rcon_packet(2, 2, command))
+        _, _, body = _rcon_read(s)
+        # Long answers arrive in several packets; take what arrives shortly after.
+        s.settimeout(0.3)
+        try:
+            while True:
+                _, _, more = _rcon_read(s)
+                body += more
+        except (socket.timeout, TimeoutError, SourceUnavailable):
+            pass
+        return body
+
+
+def _players_zomboid(text: str) -> dict:
+    # "Players connected (2): \n-Kip\n-Amani"
+    names = [ln.strip()[1:].strip() for ln in text.splitlines() if ln.strip().startswith("-")]
+    m = re.search(r"\((\d+)\)", text)
+    return {"player_count": int(m.group(1)) if m else len(names), "players": [{"name": n} for n in names if n]}
+
+
+def _players_minecraft(text: str) -> dict:
+    # "There are 2 of a max of 20 players online: Steve, Alex"
+    m = re.search(r"There are (\d+) of a max(?: of)? (\d+) players online:?\s*(.*)", text, re.S)
+    if not m:
+        return {"player_count": 0, "players": []}
+    names = [n.strip() for n in m.group(3).split(",") if n.strip()]
+    return {"player_count": int(m.group(1)), "max_players": int(m.group(2)), "players": [{"name": n} for n in names]}
+
+
+def _players_source(text: str) -> dict:
+    # CS2 / Source "status": 'players : 3 humans, 0 bots (10 max)', 'map : de_mirage', '#  2 1 "Kip" ...'
+    out: Dict[str, Any] = {}
+    m = re.search(r"players\s*:\s*(\d+)\s+humans?,\s*(\d+)\s+bots?\s*\((\d+)(?:/\d+)?\s*max\)", text)
+    if m:
+        out["player_count"], out["max_players"] = int(m.group(1)), int(m.group(3))
+    names = re.findall(r'^#\s*\d+\s+\S+\s+"([^"]+)"', text, re.M)
+    if names:
+        out["players"] = [{"name": n} for n in names]
+        out.setdefault("player_count", len(names))
+    mm = re.search(r"^map\s*:\s*(\S+)", text, re.M)
+    if mm:
+        out["map"] = mm.group(1)
+    return out
+
+
+def _players_lines(text: str) -> dict:
+    names = [ln.strip() for ln in text.splitlines() if ln.strip()]
+    return {"player_count": len(names), "players": [{"name": n} for n in names]}
+
+
+RCON_FORMATS: Dict[str, Callable[[str], dict]] = {
+    "zomboid": _players_zomboid, "minecraft": _players_minecraft, "source": _players_source, "lines": _players_lines,
+}
+RCON_DEFAULT_COMMAND = {"zomboid": "players", "minecraft": "list", "source": "status", "lines": "players"}
+
+
+def src_rcon(src: dict, server: dict) -> dict:
+    fmt = str(src.get("format", "lines")).lower()
+    if fmt not in RCON_FORMATS:
+        raise SourceUnavailable(f"rcon: unknown format {fmt!r}; use one of {', '.join(RCON_FORMATS)}")
+    host, port = src.get("host", "127.0.0.1"), int(src.get("port", 27015))
+    password = os.environ.get(src.get("password_env", "RCON_PASSWORD"), src.get("password", ""))
+    command = src.get("command") or RCON_DEFAULT_COMMAND[fmt]
+    try:
+        text = rcon_command(host, port, password, command, float(src.get("timeout", 5)))
+    except (OSError, ValueError, struct.error) as exc:
+        raise SourceUnavailable(f"rcon {host}:{port}: {exc}")
+    out = RCON_FORMATS[fmt](text)
+    out["players"] = out.get("players", [])[:MAX_PLAYERS]
+    return out
+
+
 SOURCES: Dict[str, Callable[[dict, dict], dict]] = {
     "static": src_static,
     "statusfile": src_statusfile,
@@ -364,6 +476,7 @@ SOURCES: Dict[str, Callable[[dict, dict], dict]] = {
     "a2s": src_a2s,
     "fivem": src_fivem,
     "palworld": src_palworld,
+    "rcon": src_rcon,
 }
 
 

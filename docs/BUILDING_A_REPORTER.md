@@ -28,9 +28,9 @@ work down the target list.
 | Game | Best source | Gives you | Template |
 |---|---|---|---|
 | Minecraft (Java) | Paper plugin or Fabric mod | names, UUIDs, max, version, MOTD, day, time, weather, difficulty | `world` (survival), `players` (creative, minigames), `lobby` (hub) |
-| Minecraft (Java), no plugin access | Server list ping on the game port (`minecraft_ping`) | online, max, version, MOTD, up to 12 sample names | `players` |
+| Minecraft (Java), no plugin access | Server list ping on the game port (`minecraft_ping`), or RCON `list` (`rcon` source, `format: minecraft`) for the full name list | online, max, version, MOTD, names | `players` |
 | Minecraft (Bedrock) | RakNet unconnected ping (not in this repo yet) or a plugin on the proxy | online, max, version | `players` |
-| CS2, CS:GO, TF2, L4D2, Garry's Mod, any Source game | A2S on the game port (`a2s`); RCON `status` for teams and score | map, counts, names, scores; teams via RCON or a SourceMod plugin | `match` |
+| CS2, CS:GO, TF2, L4D2, Garry's Mod, any Source game | A2S on the game port (`a2s`); RCON `status` (`rcon` source, `format: source`) for names and map | map, counts, names, scores; teams via a SourceMod plugin | `match` |
 | Valheim | A2S on game port + 1 (`a2s`) | name, counts, version; day from the log if you want it | `world` |
 | Palworld | REST API on 8212 when `RESTAPIEnabled=True` (`palworld`), else A2S | names, levels, in-game day, version | `world` |
 | ARK | A2S on query port (`a2s`) | map, counts, names | `world` |
@@ -39,7 +39,7 @@ work down the target list.
 | Terraria | TShock REST API `/v2/server/status` | names, counts, world name, time | `world` |
 | Satisfactory | HTTPS API on the game port (`/api/v1`, `QueryServerState`) | counts, tech tier, game phase | `custom` |
 | 7 Days to Die | Web API or telnet | counts, day, time | `world` |
-| Project Zomboid | RCON `players` | names | `custom` |
+| Project Zomboid | RCON `players` (`rcon` source, `format: zomboid`); a native WWG mod is in progress | names, count | `custom` |
 | Assetto Corsa | HTTP `/INFO` and `/JSON|` on the server's http port | track, session, cars, names | `race` |
 | Anything with a CLI or a status page | `command` source: any command that prints JSON | whatever you print | any |
 

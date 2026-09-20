@@ -24,6 +24,7 @@ source.
 | `a2s` | CS2, CS:GO, TF2, Garry's Mod, Valheim (game port + 1), Palworld, ARK, Rust | `host`, `port`, `players` (true) |
 | `fivem` | FiveM's own `info.json` and `players.json` | `base` (`http://127.0.0.1:30120`) |
 | `palworld` | Palworld REST API (`RESTAPIEnabled=True`) | `base` (`http://127.0.0.1:8212`), `user`, `password_env` |
+| `rcon` | Project Zomboid (`format: zomboid`, `players`), Minecraft (`minecraft`, `list`), CS2 and Source games (`source`, `status`), anything that prints one name per line (`lines`) | `host`, `port`, `password_env` (`RCON_PASSWORD`), `format`, `command` |
 | `statusfile` | A JSON file the server or a plugin writes | `path`, `max_age_seconds` (120) |
 | `command` | Any command that prints a JSON object | `command`, `timeout` (10) |
 | `static` | Nothing dynamic; the fields in the block are sent as they are | any heartbeat field |
