@@ -20,11 +20,11 @@ gradle build        # build/libs/wwg-reporter-1.0.0.jar
 
 1. Put the jar (and Fabric API) in `mods/` and start the server once. It
    writes `config/wwg-reporter.json` and logs that the key is missing.
-2. Create a key at <https://watuwagaming.site/profile#game-server-api> and
+2. Create a key at <https://watuwagaming.site/developer#game-server-api> and
    paste it into `"key"`. Set `external_id`, `name`, `join_address`, and pick
    `"template": "world"` (survival) or `"players"` (creative, minigames).
 3. Restart. The log reads `Reporting as https://watuwagaming.site/servers/<id>`.
-4. On your profile, press **Edit details** to set the title, how to join and
+4. On the Developer page, press **Edit details** to set the title, how to join and
    the rules.
 
 ```json

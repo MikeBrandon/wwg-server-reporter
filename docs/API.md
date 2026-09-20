@@ -141,7 +141,7 @@ inside all three.
 ## Caps
 
 5 active keys per member. 10 servers per key. 20 servers per member. Removing
-a server on the profile frees a slot; the mod recreates it on its next
+a server on the Developer page frees a slot; the mod recreates it on its next
 heartbeat unless its key is revoked.
 
 ## What the public sees

@@ -44,7 +44,7 @@ public final class WwgReporterMod implements DedicatedServerModInitializer {
         cfg = ReporterConfig.load(FabricLoader.getInstance().getConfigDir().resolve("wwg-reporter.json"));
         if (!cfg.keyLooksValid()) {
             LOG.error("Set \"key\" in config/wwg-reporter.json (create one at "
-                    + "https://watuwagaming.site/profile#game-server-api). Reporter disabled.");
+                    + "https://watuwagaming.site/developer#game-server-api). Reporter disabled.");
             return;
         }
         client = new WwgClient(cfg.api_base, cfg.key, LOG);
@@ -81,12 +81,12 @@ public final class WwgReporterMod implements DedicatedServerModInitializer {
             }
             case 401, 403 -> {
                 LOG.error("WWG rejected the key ({}). Stopping. Create a new key at "
-                        + "https://watuwagaming.site/profile#game-server-api", r.string("code"));
+                        + "https://watuwagaming.site/developer#game-server-api", r.string("code"));
                 stopped = true;
             }
             case 429 -> LOG.warn("Rate limited by WWG; trying again next tick.");
             case 400 -> LOG.error("WWG rejected the heartbeat: {} (fix config/wwg-reporter.json)", r.string("error"));
-            case 409 -> LOG.error("{} Remove a server on your profile to free a slot.", r.string("error"));
+            case 409 -> LOG.error("{} Remove a server on your Developer page to free a slot.", r.string("error"));
             case 0 -> { /* unreachable, already logged by the client */ }
             default -> LOG.warn("WWG answered HTTP {}: {}", r.status(), r.string("error"));
         }

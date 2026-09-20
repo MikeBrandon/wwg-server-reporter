@@ -9,7 +9,7 @@ player count and names, and marks the server offline when the resource stops.
 2. In `server.cfg`, before `ensure`:
 
    ```
-   set wwg_gs_key "wwg_gs_..."               # from https://watuwagaming.site/profile#game-server-api
+   set wwg_gs_key "wwg_gs_..."               # from https://watuwagaming.site/developer#game-server-api
    set wwg_external_id "fivem-rp"            # stable id for this server; changing it makes a new server on WWG
    set wwg_game "Grand Theft Auto V"
    set wwg_server_name "WWG Roleplay"        # defaults to sv_projectName

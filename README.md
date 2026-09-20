@@ -24,7 +24,7 @@ This repo gives you three things:
 
 ## The whole model in six lines
 
-- You create a key on your WWG profile. It looks like `wwg_gs_` followed by 40
+- You create a key on your WWG Developer page. It looks like `wwg_gs_` followed by 40
   characters and is shown once. WWG keeps only a hash.
 - Your reporter POSTs a JSON heartbeat to
   `https://watuwagaming.site/api/gs/v1/heartbeat` every 30 seconds, with the
@@ -45,7 +45,7 @@ The site's own walkthrough, per game, is at
 ## Two minutes to a live server
 
 ```bash
-# 1. Get a key: https://watuwagaming.site/profile#game-server-api (see docs/GETTING_A_KEY.md)
+# 1. Get a key: https://watuwagaming.site/developer#game-server-api (see docs/GETTING_A_KEY.md)
 export WWG_GS_KEY=wwg_gs_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 # 2. Confirm the key works
@@ -59,8 +59,8 @@ python reporter.py --once               # one heartbeat; prints the server's URL
 python reporter.py                      # every 30 s until stopped; sends /offline on Ctrl+C
 ```
 
-Then open the URL, and on your profile press **Edit details** to give the
-server a title, join instructions and rules.
+Then open the URL, and on the Developer page press **Edit details** to give
+the server a title, join instructions and rules.
 
 ## Pick an example
 
@@ -87,7 +87,7 @@ headline numbers). Every template is documented with a full payload in
 
 On top of what you send, the site adds what members do with the server
 (likes, followers, comments, an all-time peak player count) and what you
-write about it on your profile (title, description, how to join, rules,
+write about it on the Developer page (title, description, how to join, rules,
 links, icon and banner). Nothing on the site can fight the heartbeat: the mod
 owns the live facts, you own the words.
 

@@ -33,7 +33,7 @@ function loadConfig(path) {
   try { cfg = JSON.parse(fs.readFileSync(path, 'utf8')); }
   catch (e) { console.error(`Cannot read ${path}: ${e.message}. Copy config.example.json to config.json and edit it.`); process.exit(2); }
   const key = (cfg.key || process.env[cfg.key_env || 'WWG_GS_KEY'] || '').trim();
-  if (!key) { console.error('No key. Set WWG_GS_KEY (preferred) or "key" in the config. Create one at https://watuwagaming.site/profile#game-server-api'); process.exit(2); }
+  if (!key) { console.error('No key. Set WWG_GS_KEY (preferred) or "key" in the config. Create one at https://watuwagaming.site/developer#game-server-api'); process.exit(2); }
   if (!key.startsWith('wwg_gs_') || key.length < 47) { console.error('That does not look like a WWG key (wwg_gs_ followed by 40 characters).'); process.exit(2); }
   cfg._key = key;
   cfg.api_base = (cfg.api_base || DEFAULT_BASE).replace(/\/+$/, '');
@@ -152,7 +152,7 @@ async function heartbeatAll(cfg, dry) {
     } else if (r.status === 401 || r.status === 403) {
       throw new StopReporter(`${r.data.code || r.status}: ${r.data.error || 'key rejected'}`);
     } else if (r.status === 409) {
-      log('error', `${ext}: ${r.data.error} Remove a server on your profile to free a slot.`);
+      log('error', `${ext}: ${r.data.error} Remove a server on your Developer page to free a slot.`);
     } else if (r.status === 400) {
       log('error', `${ext}: rejected: ${r.data.error} (fix the config)`);
     } else {
@@ -203,7 +203,7 @@ async function main() {
       for (let i = 0; i < wait && !stop; i++) await sleep(1000);
     }
   } catch (e) {
-    if (e instanceof StopReporter) { log('error', `Key rejected (${e.message}). Stopping. Create a new key at https://watuwagaming.site/profile#game-server-api`); process.exit(2); }
+    if (e instanceof StopReporter) { log('error', `Key rejected (${e.message}). Stopping. Create a new key at https://watuwagaming.site/developer#game-server-api`); process.exit(2); }
     throw e;
   }
   await offlineAll(cfg);

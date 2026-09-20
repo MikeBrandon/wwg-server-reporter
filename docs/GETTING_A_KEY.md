@@ -1,14 +1,16 @@
 # Getting a key, keeping it safe, testing it
 
 A key is what lets a reporter speak for you. Anything holding it can put a
-server on your profile, so treat it like a password.
+server on your account, so treat it like a password.
 
 ## 1. Create the key
 
 1. Sign in at [watuwagaming.site](https://watuwagaming.site). Any member
    account works; there is no application step.
-2. Open your profile settings and scroll to **Game server API**, or go
-   straight to <https://watuwagaming.site/profile#game-server-api>.
+2. Open **Developer** from your avatar menu (or go straight to
+   <https://watuwagaming.site/developer#game-server-api>) and find **Game
+   server API**. It lives off the profile on purpose: most members never
+   need it.
 3. Type a name for the key. Name it after the box or the server it will run
    on (`Minecraft SMP box`, `CS2 scrims`), not after yourself: when you have
    three keys you will want to know which one to revoke.
@@ -76,7 +78,7 @@ Open it. Your server is live for the next 90 seconds.
 
 ## 4. After the first heartbeat
 
-Back on your profile, the server is listed under **My servers** with:
+Back on the Developer page, the server is listed under **My servers** with:
 
 - a **Public** switch (off means only you and staff see it; it keeps
   reporting);
@@ -106,10 +108,10 @@ If a key leaks, revoke it first and ask questions later.
 | Response | Cause | Do |
 |---|---|---|
 | `401 invalid_key` | No `Authorization` header, wrong prefix, a copy with a stray space or line break, or a key that never existed | Check the header reads `Bearer wwg_gs_...` with nothing else in it |
-| `403 key_revoked` | The key was revoked on the profile | Create a new key |
+| `403 key_revoked` | The key was revoked on the Developer page | Create a new key |
 | `403 owner_inactive` | The account that owns the key is deactivated | Contact WWG staff |
 | `400 validation` | A field failed the contract; `error` says which (an unknown `template`, an `http://` link, a bad `external_id`) | Fix the config; the first heartbeat catches typos on purpose |
-| `409 server_limit` | Ten servers on this key or twenty on your account | Remove a server on your profile |
+| `409 server_limit` | Ten servers on this key or twenty on your account | Remove a server on the Developer page |
 | `413 body_too_large` | Over 32 KB | Trim the player list or `meta` |
 | `429 rate_limited` | More than one heartbeat per 15 s for one server, or 60 calls a minute on the key | Wait `Retry-After` seconds |
 | `200` with `"hidden": true` | The name or MOTD tripped the word screen; staff will look before it shows | Nothing, or rename and wait |

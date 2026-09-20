@@ -1,7 +1,7 @@
 -- WWG Server Reporter for FiveM. Server side only.
 --
 -- Configure in server.cfg (never in this file, so the resource can be shared):
---   set wwg_gs_key "wwg_gs_..."                 -- from https://watuwagaming.site/profile#game-server-api
+--   set wwg_gs_key "wwg_gs_..."                 -- from https://watuwagaming.site/developer#game-server-api
 --   set wwg_external_id "fivem-rp"              -- stable id for THIS server
 --   set wwg_game "Grand Theft Auto V"           -- WWG game slug or name
 --   set wwg_server_name "WWG Roleplay"          -- defaults to sv_projectName
@@ -104,7 +104,7 @@ end
 
 CreateThread(function()
   if KEY == '' or KEY:sub(1, 7) ~= 'wwg_gs_' then
-    print('^1[wwg-reporter] set wwg_gs_key in server.cfg: set wwg_gs_key "wwg_gs_..." (https://watuwagaming.site/profile#game-server-api)^0')
+    print('^1[wwg-reporter] set wwg_gs_key in server.cfg: set wwg_gs_key "wwg_gs_..." (https://watuwagaming.site/developer#game-server-api)^0')
     return
   end
   Wait(5000)

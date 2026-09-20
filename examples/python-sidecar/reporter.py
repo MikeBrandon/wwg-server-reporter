@@ -76,7 +76,7 @@ def load_config(path: str) -> Dict[str, Any]:
     key = (cfg.get("key") or os.environ.get(cfg.get("key_env", "WWG_GS_KEY"), "")).strip()
     if not key:
         sys.exit("No key. Set the WWG_GS_KEY environment variable (preferred) or \"key\" in the config. "
-                 "Create one at https://watuwagaming.site/profile#game-server-api")
+                 "Create one at https://watuwagaming.site/developer#game-server-api")
     if not key.startswith(KEY_PREFIX) or len(key) < len(KEY_PREFIX) + 40:
         sys.exit("That does not look like a WWG key (wwg_gs_ followed by 40 characters). Check for a partial copy.")
     cfg["_key"] = key
@@ -543,7 +543,7 @@ class Reporter:
             elif status in (401, 403):
                 raise StopReporter(f"{data.get('code', status)}: {data.get('error', 'key rejected')}")
             elif status == 409:
-                log.error("%s: %s Remove a server on your profile to free a slot.", ext, data.get("error"))
+                log.error("%s: %s Remove a server on your Developer page to free a slot.", ext, data.get("error"))
             elif status == 400:
                 log.error("%s: rejected: %s (fix the config)", ext, data.get("error"))
             else:
@@ -573,7 +573,7 @@ class Reporter:
                         break
                     time.sleep(1)
         except StopReporter as exc:
-            log.error("Key rejected (%s). Stopping. Create a new key at https://watuwagaming.site/profile#game-server-api", exc)
+            log.error("Key rejected (%s). Stopping. Create a new key at https://watuwagaming.site/developer#game-server-api", exc)
             return 2
         self.offline_all()
         return 0

@@ -40,7 +40,7 @@ public final class WwgReporterPlugin extends JavaPlugin {
         String key = c.getString("key", "").trim();
         if (!key.startsWith("wwg_gs_") || key.length() < 47) {
             getLogger().severe("Set 'key' in plugins/WwgReporter/config.yml. Create one at "
-                    + "https://watuwagaming.site/profile#game-server-api. Reporter disabled.");
+                    + "https://watuwagaming.site/developer#game-server-api. Reporter disabled.");
             return;
         }
         client = new WwgClient(c.getString("api_base", WwgClient.DEFAULT_BASE), key, getLogger());
@@ -85,7 +85,7 @@ public final class WwgReporterPlugin extends JavaPlugin {
             }
             case 401, 403 -> {
                 getLogger().severe("WWG rejected the key (" + r.string("code") + "). Stopping. Create a new key at "
-                        + "https://watuwagaming.site/profile#game-server-api");
+                        + "https://watuwagaming.site/developer#game-server-api");
                 stopped = true;
                 if (task != null) {
                     task.cancel();
@@ -93,7 +93,7 @@ public final class WwgReporterPlugin extends JavaPlugin {
             }
             case 429 -> getLogger().warning("Rate limited by WWG; trying again next tick.");
             case 400 -> getLogger().severe("WWG rejected the heartbeat: " + r.string("error") + " (fix config.yml)");
-            case 409 -> getLogger().severe(r.string("error") + " Remove a server on your profile to free a slot.");
+            case 409 -> getLogger().severe(r.string("error") + " Remove a server on your Developer page to free a slot.");
             case 0 -> { /* unreachable, already logged by the client */ }
             default -> getLogger().warning("WWG answered HTTP " + r.status() + ": " + r.string("error"));
         }

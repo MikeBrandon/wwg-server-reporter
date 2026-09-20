@@ -7,7 +7,7 @@ BASE="${WWG_API_BASE:-https://watuwagaming.site/api/gs/v1}"
 KEY="${WWG_GS_KEY:-}"
 
 if [ -z "$KEY" ]; then
-  echo "WWG_GS_KEY is not set. Create a key at https://watuwagaming.site/profile#game-server-api and export it." >&2
+  echo "WWG_GS_KEY is not set. Create a key at https://watuwagaming.site/developer#game-server-api and export it." >&2
   exit 2
 fi
 case "$KEY" in
